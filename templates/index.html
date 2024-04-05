@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management System</title>
+    <link rel="stylesheet" href="templates/styles.css">
+
+</head>
+
+<body>
+    <h1>Task Management System</h1>
+
+    <div class="board">
+        <div class="column">
+            <h2>To-Do</h2>
+            <button onclick="refreshDatabase()">Refresh</button>
+            
+            <ul class="todo">
+                {% for task in todo %}
+                    <li class="card" id="{{ task[0] }}">
+                        OS {{ task[0] }}
+                        <input type="checkbox" id="task{{ task[0] }}" onclick="selectTask('{{ task[0] }}')">
+                    </li>
+
+                {% endfor %}
+            </ul>
+            <button id="startTaskBtn" onclick="openModal()">Iniciar</button>
+        </div>
+
+        <div class="column">
+            <h2>In-process</h2>
+            <ul class="in-process">
+                {% for task in in_process %}
+                    <li class="card" id="{{ task[0] }}">
+                        OS {{ task[0] }}
+                        <button onclick="finishTask('{{ task[0] }}')">Fin</button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="column">
+            <h2>Finished</h2>
+            <ul class="finished">
+                {% for task in finished %}
+                    <li class="card">OS {{ task[0] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <h2>Seleccione Etapa</h2>
+          <form action="/create_task" method="post">
+            <input type="hidden" name="id_os" id="id_os">
+            <button type="submit" name="tipo" value="D">Desarmado</button>
+            <button type="submit" name="tipo" value="A">Armado</button>
+        </form>
+        </div>
+    </div>
+    <script src="templates/functions.js"></script>
+</body>
+</html>
